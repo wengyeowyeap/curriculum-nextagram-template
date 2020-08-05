@@ -24,6 +24,7 @@ def sign_in():
     print(hashed_password)
     pw_match = check_password_hash(hashed_password, password_to_check) # what is result? Test it in Flask shell and implement it in your view function!
     if pw_match:
+      session["user_id"] = user.id
       return redirect(url_for('users.show', username=username))
     if not pw_match:
       flash("Wrong Password")
