@@ -9,7 +9,7 @@
 
 {% block content %}
   <h1>Sign in</h1>
-  <form action="{{url_for('sessions.sign_in')}}" method="POST">
+  <form action="{{url_for('sessions.create')}}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="form-group">
       <label for="InputUsername">Username</label>

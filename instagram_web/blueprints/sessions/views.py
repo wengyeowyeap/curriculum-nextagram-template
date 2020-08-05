@@ -8,15 +8,14 @@ sessions_blueprint = Blueprint('sessions',
                             __name__,
                             template_folder='templates')
 
-@sessions_blueprint.route('/sign_in', methods=['GET'])
-def sign_in_page():
-    return render_template('sessions/sign_in.html')
+@sessions_blueprint.route('/new', methods=['GET'])
+def new():
+    return render_template('sessions/new.html')
 
 
 @sessions_blueprint.route('/', methods=['POST'])
-def sign_in():
+def create():
   username = request.form.get('username')
-  print(username)
   password_to_check = request.form['password'] # password keyed in by the user in the sign in form
   user_exist = User.get_or_none(User.username == username)
   if user_exist:
@@ -28,9 +27,9 @@ def sign_in():
       return redirect(url_for('users.show', username=username))
     if not pw_match:
       flash("Wrong Password")
-      return redirect(url_for('sessions.sign_in_page'))
+      return redirect(url_for('sessions.new'))
   if not user_exist:
     flash("User not exist")
-    return redirect(url_for('sessions.sign_in_page'))
+    return redirect(url_for('sessions.new'))
 
     
