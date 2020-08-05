@@ -12,7 +12,6 @@ sessions_blueprint = Blueprint('sessions',
 def new():
     return render_template('sessions/new.html')
 
-
 @sessions_blueprint.route('/', methods=['POST'])
 def create():
   username = request.form.get('username')

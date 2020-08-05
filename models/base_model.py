@@ -3,7 +3,6 @@ import peewee as pw
 import datetime
 from database import db
 
-
 class BaseModel(pw.Model):
     created_at = pw.DateTimeField(default=datetime.datetime.now)
     updated_at = pw.DateTimeField(default=datetime.datetime.now)

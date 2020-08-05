@@ -15,7 +15,6 @@ app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-
 @app.route("/")
 def home():
     return render_template('home.html')
