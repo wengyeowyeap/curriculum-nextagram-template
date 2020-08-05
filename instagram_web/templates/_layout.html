@@ -25,7 +25,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Nextagram</a>
+      <a class="navbar-brand" href="/">Nextagram</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>        
@@ -37,13 +37,13 @@
         </form>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
+            <a class="nav-link text-primary" href="#">Users</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sign In</a>
+            <a class="nav-link text-primary" href="{{ url_for('sessions.new')}}">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sign Up</a>
+            <a class="nav-link text-primary" href="{{ url_for('users.new')}}">Sign Up</a>
           </li>
         </ul>
       </div>
