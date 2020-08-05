@@ -9,7 +9,7 @@
 
 {% block content %}
   <h1>Sign in</h1>
-  <form action="{{url_for('users.create')}}" method="POST">
+  <form action="{{url_for('sessions.sign_in')}}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="form-group">
       <label for="InputUsername">Username</label>
@@ -19,6 +19,6 @@
       <label for="Password">Password</label>
       <input type="password" name="password" class="form-control" id="Password">
     </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <button type="submit" class="btn btn-primary">Sign In</button>
   </form>
 {% endblock %}
