@@ -1,6 +1,6 @@
 import os
 import re
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.user import User
 from werkzeug.security import check_password_hash
 
@@ -23,7 +23,7 @@ def create():
     print(hashed_password)
     pw_match = check_password_hash(hashed_password, password_to_check) # what is result? Test it in Flask shell and implement it in your view function!
     if pw_match:
-      session["user_id"] = user.id
+      session["user_id"] = user_exist.id
       return redirect(url_for('users.show', username=username))
     if not pw_match:
       flash("Wrong Password")
@@ -32,4 +32,8 @@ def create():
     flash("User not exist")
     return redirect(url_for('sessions.new'))
 
-    
+@sessions_blueprint.route('/')
+def destroy():
+  session.pop('user_id', None)
+  flash("Signed out successfully!")
+  return redirect(url_for('sessions.new'))

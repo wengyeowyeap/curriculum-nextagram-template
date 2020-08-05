@@ -39,12 +39,19 @@
           <li class="nav-item">
             <a class="nav-link text-primary" href="#">Users</a>
           </li>
+          {% if not session["user_id"] %}
           <li class="nav-item">
             <a class="nav-link text-primary" href="{{ url_for('sessions.new')}}">Sign In</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-primary" href="{{ url_for('users.new')}}">Sign Up</a>
           </li>
+          {% endif %}
+          {% if session["user_id"] %}
+          <li class="nav-item">
+            <a class="nav-link text-primary" href="{{ url_for('sessions.destroy')}}">Sign Out</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </nav>

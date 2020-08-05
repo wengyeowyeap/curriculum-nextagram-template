@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.user import User
 
 users_blueprint = Blueprint('users',
@@ -22,6 +22,7 @@ def create():
 
     if new_user.save():
         flash("Successfully signed up!")
+        session["user_id"] = new_user.id
         return redirect(url_for('users.show', username=username))
     else:
         for error in new_user.errors:
