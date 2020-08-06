@@ -14,15 +14,16 @@ class User(BaseModel, UserMixin):
         username_duplicate = User.get_or_none(User.username == self.username)
         email_duplicate = User.get_or_none(User.email == self.email)
 
-        if username_duplicate and email_duplicate:
+        if username_duplicate and email_duplicate and username_duplicate.id != self.id and email_duplicate.id != self.id:
             self.errors.append('Username and email has been used')
-        elif username_duplicate:
+        elif username_duplicate and username_duplicate.id != self.id:
             self.errors.append('Username has been used')
-        elif email_duplicate:
+        elif email_duplicate and email_duplicate.id != self.id:
             self.errors.append('Email has been used')
         
-        if (len(self.password) < 6) or (re.search('[A-Z]',self.password) is None) or (re.search('[a-z]',self.password) is None) or (re.search('[0-9]',self.password) is None) or (re.search('[!@#$%]',self.password) is None):
-            self.errors.append('Password requirement: 6 or more characters, uppercase letters, lowercase letters, numbers, special characters(!@#$%).')
-        else:
-            self.password_hash = generate_password_hash(self.password) # store this in database    
+        if self.password:
+            if (len(self.password) < 6) or (re.search('[A-Z]',self.password) is None) or (re.search('[a-z]',self.password) is None) or (re.search('[0-9]',self.password) is None) or (re.search('[!@#$%]',self.password) is None):
+                self.errors.append('Password requirement: 6 or more characters, uppercase letters, lowercase letters, numbers, special characters(!@#$%).')
+            else:
+                self.password_hash = generate_password_hash(self.password) # store this in database    
         

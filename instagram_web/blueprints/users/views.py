@@ -1,7 +1,8 @@
 import os
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, abort
 from models.user import User
-from flask_login import login_required, login_user
+from flask_login import login_required, login_user, current_user
+from werkzeug.security import check_password_hash
 
 users_blueprint = Blueprint('users',
                             __name__,
@@ -42,9 +43,38 @@ def index():
     return "USERS"
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
+@login_required 
 def edit(id):
-    pass
+    return render_template('users/edit.html', id = id)
 
 @users_blueprint.route('/<id>', methods=['POST'])
+@login_required 
 def update(id):
-    pass
+    current_pw = request.form['current_password']
+    hashed_password = current_user.password_hash
+    pw_match = check_password_hash(hashed_password, current_pw)
+    if pw_match:
+        form_type = request.form.get('form_type')
+        user = User.get_or_none(User.id == id)
+        if form_type == 'username':        
+            user.username = request.form.get('new_username')
+            message="Username Changed!"
+        if form_type == 'password':
+            user.password = request.form.get('new_password')
+            message="Password Changed!"
+        if form_type == 'email':
+            user.email = request.form.get('new_email')
+            message="Email Changed!"
+
+        if user.save():
+            flash(message)
+            return redirect(url_for('users.show', username=user.username))
+        else:
+            for error in user.errors:
+                flash(error, "danger")
+            return redirect(url_for('users.edit', id = id))
+
+    else:
+        flash("Wrong Password!", "danger")
+        return redirect(url_for('users.edit', id = id))
+
