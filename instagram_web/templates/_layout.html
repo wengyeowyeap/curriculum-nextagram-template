@@ -35,21 +35,23 @@
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <ul class="navbar-nav">
+        <ul class="navbar-nav d-flex align-items-center p-1">
           <li class="nav-item">
             <a class="nav-link text-primary" href="#">Users</a>
           </li>
-          {% if not session["user_id"] %}
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+          <form action="{{url_for('sessions.destroy')}}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input type="submit" class="nav-link btn text-primary bg-transparent" value="Logout">
+          </form>            
+          </li>
+          {% else %}
           <li class="nav-item">
             <a class="nav-link text-primary" href="{{ url_for('sessions.new')}}">Sign In</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-primary" href="{{ url_for('users.new')}}">Sign Up</a>
-          </li>
-          {% endif %}
-          {% if session["user_id"] %}
-          <li class="nav-item">
-            <a class="nav-link text-primary" href="{{ url_for('sessions.destroy')}}">Sign Out</a>
           </li>
           {% endif %}
         </ul>
