@@ -59,4 +59,15 @@
     </form>
   </div>
 </div>
+<div class="container my-4">
+  <h3>Change Profile Image:</h3>
+  <form action="{{url_for('users.upload_profile', id = current_user.id)}}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <label for="new_image">Upload Your File</label>
+    <br></br>
+    <input type="file" accept="image/*" name="profile_image">
+    <br></br>
+    <button class="btn btn-primary" type="submit">Upload Image</button>
+  </form> 
+</div>
 {% endblock %}

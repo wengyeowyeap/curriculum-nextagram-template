@@ -39,9 +39,9 @@ def _db_close(exc):
 def load_user(user_id):
     return User.get_or_none(User.id == user_id)
 
-@app.errorhandler(400)
-def bad_request(e):
-    return render_template('error.html', code = 400), 400
+# @app.errorhandler(400)
+# def bad_request(e):
+#     return render_template('error.html', code = 400), 400
 
 @app.errorhandler(401)
 def unauthorized(e):
