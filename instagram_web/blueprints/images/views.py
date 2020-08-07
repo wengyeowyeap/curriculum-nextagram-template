@@ -33,7 +33,7 @@ def create():
     image = Image(user_id = user.id, image_path = image_path)
 
     if image.save():
-      flash("Successfully uploaded you new photo!", "success")
+      flash("Successfully uploaded your new photo!", "success")
       return redirect(url_for("users.show", username=user.username))
     else:
       flash("Could not upload image. Please try again")
