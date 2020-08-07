@@ -5,6 +5,7 @@ from models.image import Image
 from flask_login import login_required, current_user
 from instagram_web.util.helpers import upload_file_to_s3
 from werkzeug import secure_filename
+from datetime import datetime
 
 images_blueprint = Blueprint('images',
                             __name__,
@@ -26,10 +27,16 @@ def create():
       return redirect(url_for("images.new"))
 
     file = request.files["new_image"]
+    if 'image' not in file.mimetype:
+      flash("Please upload an image!")
+      return redirect(url_for("images.new"))
+    else:
+      file_extension = file.mimetype
+      file_extension = file_extension.replace('image/', '.')
+    
+    file.filename = str(datetime.now()) + file_extension
     file.filename = secure_filename(file.filename)
-    # Get path to image on s3 bucket
     image_path = upload_file_to_s3(file,user.username)
-
     image = Image(user_id = user.id, image_path = image_path)
 
     if image.save():

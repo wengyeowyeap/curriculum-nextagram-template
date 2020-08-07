@@ -103,6 +103,14 @@ def upload_profile(id):
                 return redirect(url_for("users.edit", id = id))
 
             file = request.files["profile_image"]
+            if 'image' not in file.mimetype:
+                flash("Please upload an image!")
+                return redirect(url_for("users.edit", id = current_user.id))
+            else:
+                file_extension = file.mimetype
+                file_extension = file_extension.replace('image/', '.')
+            
+            file.filename = user.username + "_profile_image" + file_extension
             file.filename = secure_filename(file.filename)
             # Get path to image on s3 bucket
             image_path = upload_file_to_s3(file,user.username)

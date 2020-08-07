@@ -20,8 +20,16 @@
 </header>
 
 <main class="container">
+  <div>
+    {% if user.id == current_user.id %}
+    <a href="{{url_for('images.new')}}">Add photos</a>
+    {% endif %}
+  </div>
+  <div>
   {% for i in user.image %}
   <img width="33%" src="{{i.full_image_path}}" />
-  {% endfor %}
+  {% endfor %}    
+  </div>
+
 </main>
 {% endblock %}
