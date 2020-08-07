@@ -20,6 +20,7 @@
 </header>
 
 <main class="container">
+  {% if user.private == False or user.id == current_user.id %}
   <div>
     {% if user.id == current_user.id %}
     <a href="{{url_for('images.new')}}">Add photos</a>
@@ -30,6 +31,8 @@
   <img width="33%" src="{{i.full_image_path}}" />
   {% endfor %}    
   </div>
-
+  {% else %}
+  <h4>The user's profile is private.</h4>
+  {% endif %}
 </main>
 {% endblock %}

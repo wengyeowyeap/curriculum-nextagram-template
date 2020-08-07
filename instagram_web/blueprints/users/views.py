@@ -126,3 +126,30 @@ def upload_profile(id):
             return abort(403)
     else:
         return abort(404)
+
+@users_blueprint.route('/<id>/privacy', methods=['POST'])
+@login_required
+def toggle_privacy(id):
+    user = User.get_or_none(User.id == id)
+    if user:
+        if current_user.id == int(id):
+            toggle = request.form.get('privacy')
+            print("testing")
+            print(toggle)
+            if toggle:
+                user.private = True
+                if user.save():
+                    flash('Your account is now private.')
+                else:
+                    flash("Error. Please try again")
+            else:
+                user.private = False
+                if user.save():
+                    flash('Your account is now open.')
+                else:
+                    flash("Error. Please try again")
+            return redirect(url_for('users.show', username=user.username))
+        else:
+            return abort(403)
+    else:
+        return abort(404)
