@@ -9,8 +9,6 @@ s3 = boto3.client(
 
 def upload_file_to_s3(file, username, acl="public-read"):
    try:
-      print(file)
-      print(username)
       s3.upload_fileobj(
       file,
       app.config.get('S3_BUCKET'),

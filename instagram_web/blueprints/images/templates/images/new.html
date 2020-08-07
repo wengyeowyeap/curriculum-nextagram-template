@@ -1,0 +1,25 @@
+{% extends "_layout.html" %}
+
+{% block title %}
+  New User |
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Upload Your Image Here</h1>
+
+    <form action="{{url_for('images.create')}}" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <label for="new_image">Upload Your Image</label>
+      <br></br>
+      <input type="file" accept="image/*"  name="new_image">
+      <br></br>
+      <button class="btn btn-primary" type="submit">Upload Image</button>
+    </form> 
+  </div>
+
+
+{% endblock %}
