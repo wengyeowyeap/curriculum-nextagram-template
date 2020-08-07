@@ -8,13 +8,20 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ user.username }}</h1>
-<h1>Email: {{ user.email }}</h1>
-<img src="{{user.full_image_path}}" />
-{% if user.id == current_user.id %}
-<a href="{{url_for('users.edit', id = current_user.id)}}">Edit your profile and credentials:</a>
-{% endif %}
-{% for i in user.image %}
-<img src="{{i.full_image_path}}" />
-{% endfor %}
+<header class="d-flex container my-4">
+  <img class="border border-light rounded-circle flex-grow-4" height="200px" width="200px" src="{{user.full_image_path}}" />
+  <div class="flex-grow-1 py-2 px-4">
+    <h2>{{ user.username }}</h2>
+    <p>Email: {{ user.email }}</p>
+    {% if user.id == current_user.id %}
+    <a href="{{url_for('users.edit', id = current_user.id)}}">Edit your profile</a>
+    {% endif %}
+  </div> 
+</header>
+
+<main class="container">
+  {% for i in user.image %}
+  <img width="33%" src="{{i.full_image_path}}" />
+  {% endfor %}
+</main>
 {% endblock %}
