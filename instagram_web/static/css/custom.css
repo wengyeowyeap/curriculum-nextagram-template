@@ -19,3 +19,9 @@ footer a {
   text-decoration: none;
   color: #303030;
 }
+
+.carousel-inner>.item {
+  -webkit-transition: -webkit-transform 3s ease-in-out !important;
+  -o-transition: -o-transform 3s ease-in-out !important;
+  transition: transform 3s ease-in-out !important;
+}
