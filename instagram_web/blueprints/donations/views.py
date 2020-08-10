@@ -72,7 +72,7 @@ def show():
 def send_donation_message():
   return requests.post(
     "https://api.mailgun.net/v3/sandbox43f9a81e2806462b86a4ed1def365719.mailgun.org/messages",
-    auth=("api", "84b58e87bd3a560b50a4ec9e14f0afbc-07e45e2a-be4abb61"),
+    auth=("api", ""),
     data={"from": "Nextagram <mailgun@sandbox43f9a81e2806462b86a4ed1def365719.mailgun.org>",
           "to": ["wengyeowyeap@gmail.com"],
           "subject": "You have received a donation!",
