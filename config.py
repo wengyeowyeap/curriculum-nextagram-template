@@ -1,4 +1,5 @@
 import os
+import braintree
 
 class Config(object):
     DEBUG = False

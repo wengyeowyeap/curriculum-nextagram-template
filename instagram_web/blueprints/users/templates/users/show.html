@@ -29,6 +29,9 @@
   <div>
   {% for i in user.image %}
   <img width="33%" src="{{i.full_image_path}}" />
+  {% if user.id != current_user.id %}
+  <a href="{{url_for('donations.new', id = i.id)}}">Donate to this picture</a>
+  {% endif %}
   {% endfor %}    
   </div>
   {% else %}
