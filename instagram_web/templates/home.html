@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
-<main class="d-flex">
-  <div class="flex-grow-1">
+<main class="d-flex position-relative">
+  <div id="carouselWrap" class="flex-grow-1 position-absolute">
     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" data-interval="10000">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -24,8 +24,17 @@
       </div>
     </div>
   </div>
-  <div class="flex-grow-1 d-flex justify-content-center align-items-center">
-
+  <div id="loginSignupWrap" class="flex-grow-1 d-flex justify-content-center align-items-center position-absolute w-100">
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Nextagram</h5>
+          <p class="card-text">The biggest photo sharing platform in Glomac Damansara.</p>
+          <a href="{{url_for('sessions.new')}}" class="btn btn-primary">Login</a>
+          <a href="{{url_for('users.new')}}" class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
 {% endblock %}

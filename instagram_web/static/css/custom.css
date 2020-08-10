@@ -25,3 +25,14 @@ footer a {
   -o-transition: -o-transform 3s ease-in-out !important;
   transition: transform 3s ease-in-out !important;
 }
+
+#carouselWrap{
+  overflow: hidden;
+  height: calc(100vh - 24px - 56px);
+}
+
+#loginSignupWrap{
+  height: calc(100vh - 24px - 56px);
+  z-index: 10;
+  background-color: rgba(255,255,255,0.5);
+}
