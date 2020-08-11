@@ -7,10 +7,9 @@ from flask_login import login_required, current_user
 from instagram_web.util.helpers import upload_file_to_s3
 import braintree
 from instagram_web.util.braintree_helpers import generate_client_token, transact
+from instagram_web.util.mailgun_helper import send_donation_message
 from money.money import Money
 from money.currency import Currency
-import requests
-
 
 donations_blueprint = Blueprint('donations',
                             __name__,
@@ -68,12 +67,3 @@ def create():
 @login_required
 def show():
   return render_template('donations/show.html')
-
-def send_donation_message():
-  return requests.post(
-    "https://api.mailgun.net/v3/sandbox43f9a81e2806462b86a4ed1def365719.mailgun.org/messages",
-    auth=("api", ""),
-    data={"from": "Nextagram <mailgun@sandbox43f9a81e2806462b86a4ed1def365719.mailgun.org>",
-          "to": ["wengyeowyeap@gmail.com"],
-          "subject": "You have received a donation!",
-          "text": "Test"})
