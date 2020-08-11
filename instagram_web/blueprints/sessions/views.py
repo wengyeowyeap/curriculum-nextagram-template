@@ -1,9 +1,9 @@
 import os
 import re
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, abort
 from models.user import User
 from werkzeug.security import check_password_hash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from urllib.parse import urlparse, urljoin
 from instagram_web.util.google_oauth import oauth
 
@@ -13,7 +13,9 @@ sessions_blueprint = Blueprint('sessions',
 
 @sessions_blueprint.route('/new', methods=['GET'])
 def new():
-    return render_template('sessions/new.html')
+  if current_user.is_authenticated:
+    abort(403)
+  return render_template('sessions/new.html')
 
 @sessions_blueprint.route('/', methods=['POST'])
 def create():

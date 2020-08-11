@@ -11,6 +11,8 @@ users_blueprint = Blueprint('users',
 
 @users_blueprint.route('/new', methods=['GET'])
 def new():
+    if current_user.is_authenticated:
+        abort(403)
     return render_template('users/new.html')
 
 @users_blueprint.route('/', methods=['POST'])
