@@ -37,4 +37,39 @@ class User(BaseModel, UserMixin):
                 self.errors.append('Password requirement: 6 or more characters, uppercase letters, lowercase letters, numbers, special characters(!@#$%).')
             else:
                 self.password_hash = generate_password_hash(self.password) # store this in database    
-        
+
+    def follow(self, target_user):
+        from models.relationship import Relationship
+        if target_user.private:
+            new_r = Relationship(following_id = self.id, followed_id = target_user.id, pending = True)
+        else:
+            new_r = Relationship(following_id = self.id, followed_id = target_user.id, pending = False)
+        return new_r.save()
+
+    def unfollow(self, target_user):
+        from models.relationship import Relationship
+        r = Relationship.get_or_none(followed=target_user, following=self)
+        return r.delete_instance()
+            
+    def approval(self, target_user, approval):
+        from models.relationship import Relationship
+        if approval == 'approve':
+            r = Relationship.get_or_none(followed=self, following=target_user)
+            r.pending = False
+            r.save()
+            return True
+        else:
+            r = Relationship.get_or_none(followed=self, following=target_user)
+            r.delete_instance()
+            return False
+
+    
+    def follow_status(self, target_user):
+        from models.relationship import Relationship
+        search_r = Relationship.get_or_none(followed=target_user, following=self)
+        return search_r
+    
+    def pending_follower(self):
+        from models.relationship import Relationship
+        pending_list = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == True)
+        return pending_list

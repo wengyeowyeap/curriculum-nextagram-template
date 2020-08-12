@@ -24,6 +24,54 @@
 
   </head>
   <body>
+    <!-- Modal -->
+    <div class="modal fade" id="followerRequest" tabindex="-1" role="dialog" aria-labelledby="followerRequestLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="followerRequestlLabel">Pending Follower Requests</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="list-group">
+              {% if current_user.id: %}
+              {% for u in current_user.pending_follower() %}
+              <li class="list-group-item d-flex">
+                <div class="w-25">
+                  <img class="img-fluid rounded" src="{{u.following.full_image_path}}"/>
+                </div>
+                <div class="pl-1">
+                  <div class="p-1">
+                    <a class="text-primary" style="font-size: 1.2em;" href="{{url_for('users.show', username = u.following.username)}}">{{u.following.username}}</a>
+                  </div>
+                  <div class="p-1 d-flex">
+                    <form class="mr-1" action="{{url_for('users.approve', id = u.following.id)}}" method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                      <input type="hidden" name="approval" value="approve">
+                      <div class="form-check p-0">
+                        <button type="submit" class="btn btn-outline-success btn-sm">Approve</button>
+                      </div>
+                    </form>
+                    <form class="mr-1" action="{{url_for('users.approve', id = u.following.id)}}" method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                      <input type="hidden" name="approval" value="reject">
+                      <div class="form-check p-0">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Reject</button>
+                      </div>
+                    </form>               
+                  </div>
+                </div>                
+              </li>
+              {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/">Nextagram</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +83,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('users.show', username = current_user.username)}}">Profile</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#followerRequest">Follower Requests</a>
+          </li>          
           {% endif %}
         </ul>
         <form class="form-inline my-2 my-lg-0">

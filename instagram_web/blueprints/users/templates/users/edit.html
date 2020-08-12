@@ -8,83 +8,94 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>Settings</h1>
-  <div>
-    <h3>Profile Settings</h3>
-    <div class="my-4">
-      <h3>Change Username:</h3>
-      <form action="{{url_for('users.update', id = current_user.id )}}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input type="hidden" name="form_type" value="username"/>
-        <div class="form-group">
-          <label for="InputUsername">New Username</label>
-          <input type="text" name="new_username" class="form-control" id="inputUsername">
-        </div>
-        <div class="form-group">
-          <label for="inputCurrentPassword">Enter Your Current Password</label>
-          <input type="password" name="current_password" class="form-control" id="inputCurrentPassword">
-        </div>
-        <button type="submit" class="btn btn-primary">Update Username</button>
-      </form>
+<div class="container d-flex">
+  <div class="flex-grow-4 p-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+      <a class="nav-link" id="v-pills-password-tab" data-toggle="pill" href="#v-pills-password" role="tab" aria-controls="v-pills-password" aria-selected="false">Password</a>
+      <a class="nav-link" id="v-pills-privacy-tab" data-toggle="pill" href="#v-pills-privacy" role="tab" aria-controls="v-pills-privacy" aria-selected="false">Privacy</a>
     </div>
-    <div class="my-4">
-      <h3>Change Password:</h3>
-      <form action="{{url_for('users.update', id = current_user.id)}}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input type="hidden" name="form_type" value="password"/>
-        <div class="form-group">
-          <label for="inputCurrentPassword">Enter Your Current Password</label>
-          <input type="password" name="current_password" class="form-control" id="inputCurrentPassword">
-        </div>
-        <div class="form-group">
-          <label for="inputPassword">Enter Your New Password</label>
-          <input type="password" name="new_password" class="form-control" id="inputPassword">
-        </div>
-        <button type="submit" class="btn btn-primary">Update Password</button>
-      </form>
-    </div>
-    <div class="my-4">
-      <h3>Change Email:</h3>
-      <form action="{{url_for('users.update', id = current_user.id)}}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input type="hidden" name="form_type" value="email"/>
-        <div class="form-group">
-          <label for="InputEmail">New Email</label>
-          <input type="email" name="new_email" class="form-control" id="inputEmail">
-        </div>
-        <div class="form-group">
-          <label for="inputCurrentPassword">Enter Your Current Password</label>
-          <input type="password" name="current_password" class="form-control" id="inputCurrentPassword">
-        </div>
-        <button type="submit" class="btn btn-primary">Update Email</button>
-      </form>
-    </div>
-  </div>  
-  <div class="my-4">
-    <h3>Change Profile Image:</h3>
-    <form action="{{url_for('users.upload_profile', id = current_user.id)}}" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      <label for="new_image">Upload Your File</label>
-      <br></br>
-      <input type="file" accept="image/*" name="profile_image">
-      <br></br>
-      <button class="btn btn-primary" type="submit">Upload Image</button>
-    </form> 
   </div>
-<div>
-  <h1>Edit Privacy and Security</h1>
-  <form action="{{url_for('users.toggle_privacy', id = current_user.id) }}" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-    <div class="form-check">
-      {% if user.private == True %}
-      <input class="form-check-input" type="checkbox" name="privacy" value="off" onchange="this.form.submit()" checked/>
-      {% else %}
-      <input class="form-check-input" type="checkbox" name="privacy" value="on" onchange="this.form.submit()"/>
-      {% endif %}
-      <label class="form-check-label" for="privacy">Private Account</label>
+  <div class="tab-content flex-grow-1 p-3" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+      <div class="mb-4">
+        <h3>Change Username:</h3>
+        <form action="{{url_for('users.update', id = current_user.id )}}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="hidden" name="form_type" value="username"/>
+          <div class="form-group">
+            <label for="InputUsername">New Username</label>
+            <input type="text" name="new_username" class="form-control" id="inputUsername">
+          </div>
+          <div class="form-group">
+            <label for="inputCurrentPassword">Enter Your Current Password</label>
+            <input type="password" name="current_password" class="form-control" id="inputCurrentPassword">
+          </div>
+          <button type="submit" class="btn btn-primary">Update Username</button>
+        </form>
+      </div>
+      <div class="mb-4">
+        <h3>Change Email:</h3>
+        <form action="{{url_for('users.update', id = current_user.id)}}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="hidden" name="form_type" value="email"/>
+          <div class="form-group">
+            <label for="InputEmail">New Email</label>
+            <input type="email" name="new_email" class="form-control" id="inputEmail">
+          </div>
+          <div class="form-group">
+            <label for="inputCurrentPassword">Enter Your Current Password</label>
+            <input type="password" name="current_password" class="form-control" id="inputCurrentPassword">
+          </div>
+          <button type="submit" class="btn btn-primary">Update Email</button>
+        </form>
+      </div>
+      <div class="mb-4">
+        <h3>Change Profile Image:</h3>
+        <form action="{{url_for('users.upload_profile', id = current_user.id)}}" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <label for="new_image">Upload Your File</label>
+          <br></br>
+          <input type="file" accept="image/*" name="profile_image">
+          <br></br>
+          <button class="btn btn-primary" type="submit">Upload Image</button>
+        </form> 
+      </div>
+    </div>  
+    <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">
+      <div class="mb-4">
+        <h3>Change Password:</h3>
+        <form action="{{url_for('users.update', id = current_user.id)}}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <input type="hidden" name="form_type" value="password"/>
+          <div class="form-group">
+            <label for="inputCurrentPassword">Enter Your Current Password</label>
+            <input type="password" name="current_password" class="form-control" id="inputCurrentPassword">
+          </div>
+          <div class="form-group">
+            <label for="inputPassword">Enter Your New Password</label>
+            <input type="password" name="new_password" class="form-control" id="inputPassword">
+          </div>
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </form>
+      </div>
     </div>
-  </form>
-</div>
+    <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel" aria-labelledby="v-pills-privacy-tab">
+      <div class="mb-4">
+        <h3>Edit Privacy</h3>
+        <form action="{{url_for('users.toggle_privacy', id = current_user.id) }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <div class="form-check">
+            {% if user.private == True %}
+            <input class="form-check-input" type="checkbox" name="privacy" value="off" onchange="this.form.submit()" checked/>
+            {% else %}
+            <input class="form-check-input" type="checkbox" name="privacy" value="on" onchange="this.form.submit()"/>
+            {% endif %}
+            <label class="form-check-label" for="privacy">Private Account</label>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

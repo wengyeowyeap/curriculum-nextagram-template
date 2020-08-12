@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, abort
 from models.user import User
+from models.relationship import Relationship
 from flask_login import login_required, login_user, current_user
 from instagram_web.util.helpers import upload_file_to_s3
 from werkzeug.security import check_password_hash
@@ -35,9 +36,13 @@ def create():
 @users_blueprint.route('/<username>', methods=["GET"])
 @login_required 
 def show(username):
+    from models.relationship import Relationship
     user = User.get_or_none(User.username == username)
+    online_user = User.get_or_none(User.id == current_user.id)
     if user:
-        return render_template('users/show.html', username=username, user=user)
+        rel = online_user.follow_status(user)
+        bool_rel = bool(rel)
+        return render_template('users/show.html', username=username, user=user, rel=rel, bool_rel = bool_rel)
     else:
         return abort(404)
         
@@ -155,3 +160,27 @@ def toggle_privacy(id):
             return abort(403)
     else:
         return abort(404)
+
+@users_blueprint.route('/<id>/follow', methods=["POST"])
+@login_required 
+def toggle_follow(id):
+    online_user = User.get_or_none(User.id == current_user.id)
+    target_user = User.get_or_none(User.id == id)
+    search_r = Relationship.get_or_none(followed=target_user, following=online_user)
+    if search_r:
+        online_user.unfollow(target_user)
+    else:
+        online_user.follow(target_user)
+    return redirect(url_for('users.show', username = target_user.username))
+
+@users_blueprint.route('/<id>/approve', methods=["POST"])
+@login_required 
+def approve(id):
+    target_user = User.get_or_none(User.id == id)
+    approval = request.form.get('approval')
+    if current_user.approval(target_user, approval):
+        flash(f'Follower request from {target_user.username} is approved.' )
+    else:
+        flash(f'Follower request from {target_user.username} is rejected.' )
+    return redirect(url_for('users.show', username = current_user.username))
+    
