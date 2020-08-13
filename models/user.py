@@ -81,25 +81,25 @@ class User(BaseModel, UserMixin):
         return p_following_list
 
     @hybrid_property
-    def follower(self):
+    def my_follower(self):
         from models.relationship import Relationship
         my_follower = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == False)
         return my_follower
     
     @hybrid_property
-    def follower_total(self):
+    def my_follower_total(self):
         from models.relationship import Relationship
         my_follower = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == False)
         return len(my_follower)
     
     @hybrid_property
-    def following(self):
+    def my_following(self):
         from models.relationship import Relationship
         im_following = Relationship.select(Relationship.followed).where(Relationship.following == self, Relationship.pending == False)
         return im_following
 
     @hybrid_property
-    def following_total(self):
+    def my_following_total(self):
         from models.relationship import Relationship
         im_following = Relationship.select(Relationship.followed).where(Relationship.following == self, Relationship.pending == False)
         return len(im_following)

@@ -14,8 +14,8 @@
     <h2>{{ user.username }}</h2>
     <p>Email: {{ user.email }}</p>
     <div>
-    <a href="{{url_for('users.show_following', id = current_user.id)}}" class="btn btn-link p-0" role="button" aria-pressed="true">Following: {{current_user.following_total}}</a>
-    <a href="{{url_for('users.show_follower', id = current_user.id)}}" class="btn btn-link p-0" role="button" aria-pressed="true">Follower: {{current_user.follower_total}}</a>      
+    <a href="{{url_for('users.show_following', id = current_user.id)}}" class="btn btn-link p-0" role="button" aria-pressed="true">Following: {{current_user.my_following_total}}</a>
+    <a href="{{url_for('users.show_follower', id = current_user.id)}}" class="btn btn-link p-0" role="button" aria-pressed="true">Follower: {{current_user.my_follower_total}}</a>      
     </div>
 
     {% if user.id != current_user.id %}    
