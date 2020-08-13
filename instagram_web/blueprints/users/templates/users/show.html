@@ -13,9 +13,11 @@
   <div class="flex-grow-1 py-2 px-4">
     <h2>{{ user.username }}</h2>
     <p>Email: {{ user.email }}</p>
-    {% if user.id == current_user.id %}
-    <a href="{{url_for('users.edit', id = current_user.id)}}">Edit your profile</a>
-    {% endif %}
+    <div>
+    <a href="{{url_for('users.show_following', id = current_user.id)}}" class="btn btn-link p-0" role="button" aria-pressed="true">Following: {{current_user.following_total}}</a>
+    <a href="{{url_for('users.show_follower', id = current_user.id)}}" class="btn btn-link p-0" role="button" aria-pressed="true">Follower: {{current_user.follower_total}}</a>      
+    </div>
+
     {% if user.id != current_user.id %}    
     <form action="{{url_for('users.toggle_follow', id = user.id)}}" method="POST">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -29,6 +31,9 @@
         {% endif %}
       </div>
     </form>
+    {% endif %}
+    {% if user.id == current_user.id %}
+    <a href="{{url_for('users.edit', id = current_user.id)}}">Edit your profile</a>
     {% endif %}
   </div> 
 </header>

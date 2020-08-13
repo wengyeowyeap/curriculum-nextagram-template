@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+
+{% block title %}
+  {{current_user.username}}'s Follower |
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+{% for u in current_user.follower %}
+<main class="container">
+  <li class="list-group-item d-flex">
+  <div class="w-25">
+    <img class="img-fluid rounded" src="{{u.following.full_image_path}}"/>
+  </div>
+  <div class="pl-1">
+    <div class="p-1">
+      <a class="text-primary p-0" style="font-size: 1.1em;" href="{{url_for('users.show', username = u.following.username)}}">{{u.following.username}}</a>
+    </div>
+  </div>
+</li>
+</main>
+
+{% endfor %}
+{% endblock %}

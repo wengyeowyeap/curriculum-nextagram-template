@@ -8,6 +8,15 @@
 {% endblock %}
 
 {% block content %}
+{% if current_user.is_authenticated %}
+<main class="container">
+  {% for i in current_user.image_feed %}
+  <div class="w-100">
+  <img src="{{i.full_image_path}}" alt="">
+  </div>
+  {% endfor %}
+</main>
+{% else %}
 <main class="d-flex position-relative">
   <div id="carouselWrap" class="flex-grow-1 position-absolute">
     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" data-interval="10000">
@@ -37,4 +46,5 @@
     </div>
   </div>
 </main>
+{% endif %}
 {% endblock %}

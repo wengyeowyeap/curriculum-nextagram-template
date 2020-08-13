@@ -68,7 +68,46 @@ class User(BaseModel, UserMixin):
         search_r = Relationship.get_or_none(followed=target_user, following=self)
         return search_r
     
+    @hybrid_property
     def pending_follower(self):
         from models.relationship import Relationship
-        pending_list = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == True)
-        return pending_list
+        p_follower_list = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == True)
+        return p_follower_list
+    
+    @hybrid_property
+    def pending_request(self):
+        from models.relationship import Relationship
+        p_following_list = Relationship.select(Relationship.followed).where(Relationship.following == self, Relationship.pending == True)
+        return p_following_list
+
+    @hybrid_property
+    def follower(self):
+        from models.relationship import Relationship
+        my_follower = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == False)
+        return my_follower
+    
+    @hybrid_property
+    def follower_total(self):
+        from models.relationship import Relationship
+        my_follower = Relationship.select(Relationship.following).where(Relationship.followed == self, Relationship.pending == False)
+        return len(my_follower)
+    
+    @hybrid_property
+    def following(self):
+        from models.relationship import Relationship
+        im_following = Relationship.select(Relationship.followed).where(Relationship.following == self, Relationship.pending == False)
+        return im_following
+
+    @hybrid_property
+    def following_total(self):
+        from models.relationship import Relationship
+        im_following = Relationship.select(Relationship.followed).where(Relationship.following == self, Relationship.pending == False)
+        return len(im_following)
+    
+    @hybrid_property
+    def image_feed(self):
+        from models.relationship import Relationship
+        from models.image import Image
+        images = Image.select().join(Relationship, on = (Image.user_id == Relationship.followed)).where(Relationship.following == self, Relationship.pending == False)
+        return images
+

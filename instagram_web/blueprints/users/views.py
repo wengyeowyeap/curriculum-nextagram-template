@@ -184,3 +184,12 @@ def approve(id):
         flash(f'Follower request from {target_user.username} is rejected.' )
     return redirect(url_for('users.show', username = current_user.username))
     
+@users_blueprint.route('/<id>/show_following', methods=["GET"])
+@login_required 
+def show_following(id):
+    return render_template('users/show_following.html')
+
+@users_blueprint.route('/<id>/show_follower', methods=["GET"])
+@login_required 
+def show_follower(id):
+    return render_template('users/show_follower.html')

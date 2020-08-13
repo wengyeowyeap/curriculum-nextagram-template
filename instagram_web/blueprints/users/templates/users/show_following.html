@@ -1,0 +1,32 @@
+{% extends "_layout.html" %}
+
+{% block title %}
+  {{current_user.username}}'s Following |
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+{% for u in current_user.following %}
+<main class="container">
+  <li class="list-group-item d-flex">
+  <div class="w-25">
+    <img class="img-fluid rounded" src="{{u.followed.full_image_path}}"/>
+  </div>
+  <div class="pl-1">
+    <div class="p-1">
+      <a class="text-primary p-0" style="font-size: 1.1em;" href="{{url_for('users.show', username = u.followed.username)}}">{{u.followed.username}}</a>
+    </div>
+  </div>
+  <form action="{{url_for('users.toggle_follow', id = u.followed.id)}}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="form-check p-0">
+      <button type="submit" class="btn btn-primary btn-sm">Following</button>
+    </div>
+  </form>
+</li>
+</main>
+
+{% endfor %}
+{% endblock %}
