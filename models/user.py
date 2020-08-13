@@ -63,7 +63,6 @@ class User(BaseModel, UserMixin):
             r.delete_instance()
             return False
 
-    
     def follow_status(self, target_user):
         from models.relationship import Relationship
         search_r = Relationship.get_or_none(followed=target_user, following=self)

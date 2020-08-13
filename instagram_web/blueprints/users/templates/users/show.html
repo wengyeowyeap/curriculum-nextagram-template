@@ -19,7 +19,7 @@
     {% if user.id != current_user.id %}    
     <form action="{{url_for('users.toggle_follow', id = user.id)}}" method="POST">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      <div class="form-check">
+      <div class="form-check p-0">
         {% if (bool_rel == True) and (rel.pending == False) %}
         <button type="submit" class="btn btn-primary btn-sm">Following</button>
         {% elif (bool_rel == True) and (rel.pending == True) %}
@@ -40,14 +40,16 @@
       <a href="{{url_for('images.new')}}">Add photos</a>
       {% endif %}
     </div>
+    <div class="d-flex justify-content-between flex-wrap">
+      {% for i in user.image %}
       <div>
-        {% for i in user.image %}
-          <img width="33%" src="{{i.full_image_path}}" />
-          {% if user.id != current_user.id %}
-          <a href="{{url_for('donations.new', id = i.id)}}">Donate to this picture</a>
-          {% endif %}
-        {% endfor %}    
-      </div>
+        <img id="userImage" src="{{i.full_image_path}}" />
+      </div>        
+      {% if user.id != current_user.id %}
+      <a href="{{url_for('donations.new', id = i.id)}}">Donate to this picture</a>
+      {% endif %}
+      {% endfor %}    
+    </div>
   {% else %}
     <h4>The user's profile is private.</h4>
   {% endif %}

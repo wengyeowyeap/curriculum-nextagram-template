@@ -36,3 +36,9 @@ footer a {
   z-index: 10;
   background-color: rgba(255,255,255,0.5);
 }
+
+#userImage{
+  object-fit: cover;
+  width: 300px;
+  height: 300px;
+}
