@@ -141,8 +141,6 @@ def toggle_privacy(id):
     if user:
         if current_user.id == int(id):
             toggle = request.form.get('privacy')
-            print("testing")
-            print(toggle)
             if toggle:
                 user.private = True
                 if user.save():
